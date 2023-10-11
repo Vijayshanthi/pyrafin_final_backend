@@ -7,10 +7,14 @@ module.exports = function () {
         var mysqlExecuteCall = new mysqlExecute();
         const invoicenumber = data.InvoiceNumber;
         const particulars = data.Particulars;
+        const tds = data.TDS;
+        const tdsamount = data.TDSAmount;
+        const section = data.Section;
         const duedate = data.DueDate;
         const actiondate = data.ActionDate;
         const paymentType = data.PaymentType;
         const accountType = data.AccountType;
+        const status = data.Status;
         const amount = data.Amount;
         const cgst = data.CGST;
         const sgst = data.SGST;
@@ -34,11 +38,14 @@ module.exports = function () {
             });
           } else {
             var query =
-              "INSERT INTO expense_table (InvoiceNumber,Particulars,PaymentType,AccountType,Amount,CGST,SGST,IGST,TotalAmount,DueDate,ActionDate) VALUES ?";
+              "INSERT INTO expense_table (InvoiceNumber,Particulars,Section,TDS,TDSAmount,PaymentType,AccountType,Amount,CGST,SGST,IGST,TotalAmount,Status,DueDate,ActionDate) VALUES ?";
             var queryRequest = [
               [
                 invoicenumber,
                 particulars,
+                section,
+                tds,
+                tdsamount,
                 paymentType,
                 accountType,
                 amount,
@@ -46,6 +53,7 @@ module.exports = function () {
                 sgst,
                 igst,
                 totalamount,
+                status,
                 duedate,
                 actiondate,
               ],
@@ -54,6 +62,7 @@ module.exports = function () {
               query,
               [queryRequest]
             );
+            console.log(queryResponse);
             if (queryResponse.error == "false") {
               resolve({
                 status: 200,
@@ -83,10 +92,14 @@ module.exports = function () {
         const data = req.body;
         const invoicenumber = data.InvoiceNumber;
         const particulars = data.Particulars;
+        const tds = data.TDS;
+        const tdsamount = data.TDSAmount;
+        const section = data.Section;
         const duedate = data.DueDate;
         const actiondate = data.ActionDate;
         const paymentType = data.PaymentType;
         const accountType = data.AccountType;
+        const status = data.Status;
         const amount = data.Amount;
         const cgst = data.CGST;
         const sgst = data.SGST;
@@ -103,10 +116,14 @@ module.exports = function () {
         if (queryResponse.error == "false") {
           if (queryResponse.result.length > 0) {
             const query =
-              "UPDATE expense_table SET InvoiceNumber=?,Particulars=?,DueDate=?,PaymentType=?,AccountType=?,Amount=?,CGST=?,SGST=?,IGST=?,TotalAmount=?,ActionDate=? where id=?";
+              "UPDATE expense_table SET InvoiceNumber=?,Particulars=?,Section=?,TDS=?,TDSAmount=?,`Status`=?,DueDate=?,PaymentType=?,AccountType=?,Amount=?,CGST=?,SGST=?,IGST=?,TotalAmount=?,ActionDate=? where id=?";
             var queryRequest = [
               invoicenumber,
               particulars,
+              section,
+              tds,
+              tdsamount,
+              status,
               duedate,
               paymentType,
               accountType,
@@ -148,10 +165,14 @@ module.exports = function () {
                 });
               } else {
                 const query =
-                  "UPDATE expense_table SET InvoiceNumber=?,Particulars=?,DueDate=?,PaymentType=?,AccountType=?,Amount=?,CGST=?,SGST=?,IGST=?,TotalAmount=?,ActionDate=? where id=?";
+                  "UPDATE expense_table SET InvoiceNumber=?,Particulars=?,Section=?,TDS=?,TDSAmount=?,`Status`=?,DueDate=?,PaymentType=?,AccountType=?,Amount=?,CGST=?,SGST=?,IGST=?,TotalAmount=?,ActionDate=? where id=?";
                 var queryRequest = [
                   invoicenumber,
                   particulars,
+                  section,
+                  tds,
+                  tdsamount,
+                  status,
                   duedate,
                   paymentType,
                   accountType,
@@ -271,7 +292,7 @@ module.exports = function () {
       try {
         var mysqlExecuteCall = new mysqlExecute();
         var query =
-          "SELECT id,InvoiceNumber,CGST,Particulars,PaymentType,AccountType,Amount,SGST,IGST,TotalAmount,DueDate,ActionDate from expense_table where  IsDeleted=0";
+          "SELECT id,InvoiceNumber,CGST,Particulars,TDS,TDSAmount,Section,Section,Status,PaymentType,AccountType,Amount,SGST,IGST,TotalAmount,DueDate,ActionDate from expense_table where  IsDeleted=0";
         var queryResponse = await mysqlExecuteCall.executeWithoutParams(query);
         if (queryResponse.error == "false") {
           resolve(queryResponse);
