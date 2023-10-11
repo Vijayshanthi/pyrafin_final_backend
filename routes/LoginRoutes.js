@@ -24,7 +24,6 @@ router.post(
       LoginController.LoginDetailsController(
         request,
         function ({ message, status, token, id }) {
-
           return response
             .status(200)
             .send({ message: message, token: token, userId: id });
