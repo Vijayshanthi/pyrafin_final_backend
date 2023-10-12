@@ -9,6 +9,11 @@ router.post(
   "/addexpense",
 
   [
+    check("TDSStatus")
+      .notEmpty()
+      .isString()
+      .isIn(["Applicable", "Not Applicable"])
+      .withMessage("Invalid status. Status must be one of: Direct,Indirect"),
     check("PaymentType")
       .notEmpty()
       .isString()
@@ -24,11 +29,15 @@ router.post(
     check("Particulars")
       .isLength({ min: 1 })
       .withMessage("Invalid: Particulars must have at least 1 character"),
-
+    check("Section")
+      .isLength({ min: 1 })
+      .withMessage("Invalid: Section must have at least 1 character"),
     check("CGST").optional().isNumeric(),
     check("SGST").optional().isNumeric(),
     check("IGST").optional().isNumeric(),
+    check("TDS").optional().isNumeric(),
     check("TotalAmount").notEmpty().isNumeric(),
+    check("TDSAmount").notEmpty().isNumeric(),
     check("Amount")
       .isLength({ min: 1, max: 8 })
       .notEmpty()
@@ -39,7 +48,7 @@ router.post(
     check("InvoiceNumber")
       .notEmpty()
       .isString()
-      .withMessage("Provie Invoice Number"),
+      .withMessage("Provide Invoice Number"),
   ],
   authorizeJWT,
   function (request, response) {
@@ -87,9 +96,15 @@ router.put(
       .withMessage("Invalid: Particulars must have at least 1 character"),
 
     check("CGST").optional().isNumeric(),
+    check("TDS").optional().isNumeric(),
     check("SGST").optional().isNumeric(),
     check("IGST").optional().isNumeric(),
+    check("TDS").optional().isNumeric(),
+    check("TDSAmount").notEmpty().isNumeric(),
     check("TotalAmount").notEmpty().isNumeric(),
+    check("Section")
+      .isLength({ min: 1 })
+      .withMessage("Invalid: Section must have at least 1 character"),
     check("Amount")
       .isLength({ min: 1, max: 8 })
       .notEmpty()
@@ -100,7 +115,7 @@ router.put(
     check("InvoiceNumber")
       .notEmpty()
       .isString()
-      .withMessage("Provie Invoice Number"),
+      .withMessage("Provide Invoice Number"),
   ],
   authorizeJWT,
   function (request, response) {
