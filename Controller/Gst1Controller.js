@@ -1,9 +1,30 @@
-
 module.exports = function () {
-  var incomeService = require("../service/IncomeService");
+  var gst1Service = require("../service/IncomeService");
+
+
+  this.getListGst1Controller = async (req, callback) => {
+    var response = {};
+    var Gst1ServiceObject = new gst1Service();
+    var Gst1Service = await Gst1ServiceObject.getListIncomeService(
+      req
+    );
+
+    if (Gst1Service.error == "true") {
+      response.error = "true";
+      response.message = Gst1Service.message;
+      response.status = Gst1Service.status;
+    } else {
+      response.error = "false";
+      response.data = Gst1Service.data;
+    }
+
+    callback(response);
+  };
 
   this.addIncomeController = async (req, callback) => {
     var response = {};
+
+
     var addIncomeServiceObject = new incomeService();
     var addIncomeService = await addIncomeServiceObject.addIncomeService(req);
     if (addIncomeService.error == "true") {

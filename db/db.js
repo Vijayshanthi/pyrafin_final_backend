@@ -5,7 +5,7 @@ module.exports = function () {
     connectionLimit: process.env.connectionLimit,
     host: "localhost",
     user: "root",
-    password: "aafiya.",
+    password: "",
     database: "finance",
     debug: false,
     multipleStatements: true,
