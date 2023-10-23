@@ -6,7 +6,7 @@ const authorizeJWT = require("./authmiddleware");
 const Gst2Controller = new (require("../Controller/Gst2Controller"))();
 
 
-router.get("/getGst2details", authorizeJWT, function (request, response) {
+router.get("/getexpensedetails", authorizeJWT, function (request, response) {
   Gst2Controller.getListGst2Controller(request, function ({ data }) {
     return response.send(data);
   });

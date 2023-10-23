@@ -12,6 +12,7 @@ const LoginRoutes = require("./routes/LoginRoutes");
 const AccountSummaryRoutes = require("./routes/AccountSummaryRoutes");
 const Gst1Routes = require("./routes/Gst1Routes");
 const Gst2Routes = require("./routes/Gst2Routes")
+const Gst3BRoutes = require("./routes/Gst3BRoutes")
 
 const authorizeJWT = require("./routes/authmiddleware");
 
@@ -44,6 +45,7 @@ app.use("/income", IncomeRoutes);
 app.use("/gst", Gst1Routes);
 app.use("/account", AccountSummaryRoutes);
 app.use("/expensegst", Gst2Routes);
+app.use("/totalgst", Gst3BRoutes);
 
 const jwtBlacklist = [];
 app.post("/api/logout", (req, res) => {
